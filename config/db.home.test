@@ -1,0 +1,14 @@
+$TTL 2h
+@   IN  SOA ns1.home.test. admin.home.test. (
+        2026042101 ; serial
+        12h        ; refresh
+        15m        ; retry
+        2w         ; expire
+        2h )       ; minimum
+
+    IN  NS  ns1.home.test.
+
+ns1 IN  A   192.168.1.50
+dns IN  A   192.168.1.50
+www IN  A   192.168.1.80
+nas IN  A   192.168.1.90

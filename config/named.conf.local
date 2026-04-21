@@ -1,0 +1,5 @@
+zone "home.test" {
+    type master;
+    file "/var/cache/bind/db.home.test";
+    allow-query { localnets; localhost; };
+};

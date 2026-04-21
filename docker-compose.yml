@@ -1,0 +1,13 @@
+services:
+  webmin-bind:
+    image: kcancook/webmin-bind:latest
+    container_name: webmin-bind
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "10000:10000/tcp"
+    environment:
+      - ROOT_PASSWORD=change-me
+      - TZ=America/New_York
+

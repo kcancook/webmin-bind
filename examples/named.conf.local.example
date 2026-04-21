@@ -1,0 +1,19 @@
+acl "lan" {
+    192.168.1.0/24;
+    localhost;
+    localnets;
+};
+
+acl "he-slave" {
+    203.0.113.10;
+    203.0.113.11;
+};
+
+zone "example.com" {
+    type master;
+    file "/var/cache/bind/db.example.com";
+    allow-query { lan; };
+    allow-transfer { he-slave; };
+    notify explicit;
+    also-notify { 203.0.113.10; 203.0.113.11; };
+};

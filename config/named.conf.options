@@ -1,0 +1,10 @@
+options {
+    directory "/var/cache/bind";
+    listen-on { any; };
+    listen-on-v6 { any; };
+    allow-query { localnets; localhost; };
+    allow-recursion { localnets; localhost; };
+    allow-query-cache { localnets; localhost; };
+    recursion yes;
+    dnssec-validation auto;
+};
