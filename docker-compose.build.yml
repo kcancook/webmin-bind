@@ -1,5 +1,0 @@
-services:
-  webmin-bind:
-    build:
-      context: .
-    image: kcancook/webmin-bind:latest
