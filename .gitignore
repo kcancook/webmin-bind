@@ -1,1 +1,18 @@
+# Runtime data
 data/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+
+# OS/editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*~
+*.swp

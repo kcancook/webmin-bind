@@ -8,6 +8,9 @@ services:
       - "53:53/udp"
       - "10000:10000/tcp"
     environment:
-      - ROOT_PASSWORD=change-me
-      - TZ=America/New_York
-
+      TZ: America/New_York
+      ROOT_PASSWORD: change-me-now
+    volumes:
+      - ./data/etc-bind:/etc/bind
+      - ./data/cache-bind:/var/cache/bind
+      - ./data/lib-bind:/var/lib/bind
