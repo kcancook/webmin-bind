@@ -30,7 +30,7 @@ RUN apt-get update \
     && rm -f /tmp/webmin-current.deb \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /data/bind /run/named /etc/bind/zones
+RUN mkdir -p /run/named /var/webmin /etc/bind /etc/bind/zones /var/cache/bind /var/lib/bind
 
 COPY config/named.conf /etc/bind/named.conf
 COPY config/named.conf.options /etc/bind/named.conf.options
@@ -41,6 +41,7 @@ COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 53/tcp 53/udp 10000/tcp
-VOLUME ["/etc/bind", "/var/cache/bind", "/var/lib/bind", "/etc/webmin"]
+
+VOLUME ["/etc/bind", "/var/cache/bind", "/var/lib/bind"]
 
 ENTRYPOINT ["/entrypoint.sh"]
