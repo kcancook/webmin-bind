@@ -3,8 +3,11 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+# 1) Update and install base packages (including dpkg, sed)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+       dpkg \
+       sed \
        curl \
        wget \
        gnupg \
@@ -24,11 +27,19 @@ RUN apt-get update \
        libauthen-pam-perl \
        libio-pty-perl \
        libpam-runtime \
-       unzip \
-    && wget -O /tmp/webmin-current.deb https://www.webmin.com/download/deb/webmin-current.deb \
-    && apt-get install -y --install-recommends /tmp/webmin-current.deb \
-    && rm -f /tmp/webmin-current.deb \
-    && rm -rf /var/lib/apt/lists/*
+       unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# 2) Download Webmin .deb
+RUN wget -O /tmp/webmin-current.deb https://www.webmin.com/download/deb/webmin-current.deb
+
+# 3) Install Webmin with dpkg, then fix dependencies with apt
+RUN apt-get update && \
+    dpkg -i /tmp/webmin-current.deb || true && \
+    apt-get -f install -y && \
+    rm -f /tmp/webmin-current.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/named /var/webmin /etc/bind /etc/bind/zones /var/cache/bind /var/lib/bind
 
