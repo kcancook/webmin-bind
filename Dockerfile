@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# 1) Update and install base packages (including dpkg, sed)
+# 1) Update and install base packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
        dpkg \
@@ -40,6 +40,18 @@ RUN apt-get update && \
     rm -f /tmp/webmin-current.deb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# 4) Preseed Webmin BIND module config for containers
+RUN mkdir -p /etc/webmin/bind8 && \
+    touch /etc/webmin/bind8/config && \
+    sed -i \
+      -e 's|^start_cmd=.*|start_cmd=|' \
+      -e 's|^stop_cmd=.*|stop_cmd=|' \
+      -e 's|^restart_cmd=.*|restart_cmd=rndc reload|' \
+      /etc/webmin/bind8/config && \
+    grep -q '^start_cmd=' /etc/webmin/bind8/config || echo 'start_cmd=' >> /etc/webmin/bind8/config && \
+    grep -q '^stop_cmd=' /etc/webmin/bind8/config || echo 'stop_cmd=' >> /etc/webmin/bind8/config && \
+    grep -q '^restart_cmd=' /etc/webmin/bind8/config || echo 'restart_cmd=rndc reload' >> /etc/webmin/bind8/config
 
 RUN mkdir -p /run/named /var/webmin /etc/bind /etc/bind/zones /var/cache/bind /var/lib/bind
 
