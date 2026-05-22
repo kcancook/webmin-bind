@@ -166,7 +166,7 @@ if [[ -f /var/webmin/miniserv.pid ]]; then
 fi
 
 log "Starting Webmin"
-(/usr/share/webmin/miniserv.pl /etc/webmin/miniserv.conf &) 
+(/usr/share/webmin/miniserv.pl /etc/webmin/miniserv.conf &)
 
 log "Starting named"
 exec named -g -u bind
